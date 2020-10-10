@@ -1,0 +1,9 @@
+/* your styles go here */
+body {
+    counter-reset: section;
+}
+
+#table_counter::before {
+    counter-increment: section;
+    content: counter(section);
+}

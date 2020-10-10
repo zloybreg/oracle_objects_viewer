@@ -1,0 +1,36 @@
+{% extends 'ddl_objects/base.html' %}
+
+{% block content %}
+
+    <div class="card">
+{#            <div class="card-close">#}
+{#                <div class="dropdown">#}
+{#                    <button type="button" id="closeCard1" data-toggle="dropdown" aria-haspopup="true"#}
+{#                            aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i>#}
+{#                    </button>#}
+{#                    <div aria-labelledby="closeCard1" class="dropdown-menu dropdown-menu-right has-shadow">#}
+{#                        <a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a#}
+{#                            href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>#}
+{#                </div>#}
+{#            </div>#}
+            <div class="card-header d-flex align-items-center">
+                {{ object_name.upper }}
+            </div>
+            <div class="card-body">
+                {% if is_error == 0 %}
+                <div class="table-responsive">
+                    <pre>
+                        <code class="language-plsql">
+                            {{ object_list }}
+                        </code>
+                    </pre>
+                </div>
+                {% else %}
+                    <p>
+                        {{ object_list }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+{% endblock %}

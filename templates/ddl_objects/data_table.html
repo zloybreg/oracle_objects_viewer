@@ -1,0 +1,75 @@
+{% extends 'ddl_objects/base.html' %}
+
+{% block content %}
+
+<section class="tables">
+    <div class="container-fluid">
+        <div class="card">
+
+            <div class="card-body">
+                {% if object_list %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Статус</th>
+                            <th>Дата создания</th>
+                            <th>Дата компиляции</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for obj in object_list %}
+                        <tr>
+                            <th scope="row" id="table_counter"></th>
+                            <td>
+                                <a href="{% url 'object_detail' obj.object_type|lower obj.object_name|lower %}">
+                                    {{ obj.object_name|upper }}
+                                </a>
+                            </td>
+                            <td>
+                                {% if obj.status == 'INVALID' %}
+                                    <div class="border rounded text-white p-1" style="float: left; background-color: red;">
+                                        <a href="{% url 'error_detail' obj.object_type|lower obj.object_name|lower %}"
+                                        style="text-decoration-color: white; text-overline-color: white">
+                                            {{ obj.status }}
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="border rounded text-white p-1" style="float: left; background-color: green;">
+                                        {{ obj.status }}
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td>{{ obj.created|date:"D d M Y" }} {{ obj.created|time:"H:i" }}</td>
+                            <td>{{ obj.last_ddl_time|date:"D d M Y" }} {{ obj.last_ddl_time|time:"H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if is_paginated %}
+                        <div class="pagination">
+                            <span class="page-links">
+                                {% if page_obj.has_previous %}
+                                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                                {% endif %}
+                                <span class="page-current">
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+                                {% if page_obj.has_next %}
+                                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                    <p>Нет объектов</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
